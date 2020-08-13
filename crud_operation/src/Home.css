@@ -1,0 +1,17 @@
+.create {
+  margin-left: 40%;
+  margin-top: 20px;
+
+  font-size: 40px;
+  font-family: MV Boli;
+}
+.view {
+  font-size: 40px;
+  margin-left: 20px;
+  font-family: MV Boli;
+}
+.inputform {
+  position: relative;
+  left: 300px;
+  width: 600px;
+}
