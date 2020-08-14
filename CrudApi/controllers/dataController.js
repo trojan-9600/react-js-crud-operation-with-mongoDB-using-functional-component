@@ -23,8 +23,8 @@ router.get("/", (req, res) => {
       MiddleName: req.body.MiddleName,
       LastName: req.body.LastName,
       Email: req.body.Email,
-      date: req.body.date,
-      bio: req.body.bio,
+      date: req.body.Date,
+      bio: req.body.Bio,
     });
     newRecord.save((err, docs) => {
       if (!err) {
