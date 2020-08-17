@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
+import { connect } from "react-redux";
+import * as actions from "../actions/postData";
 
-export default function Incomerows(props) {
+export function UserRows(props) {
   const [fname, setFname] = useState(props.user.FirstName);
   const [mname, setMname] = useState(props.user.MiddleName);
   const [lname, setLname] = useState(props.user.LastName);
@@ -20,17 +20,20 @@ export default function Incomerows(props) {
       date: date,
       bio: bio,
     };
-    axios
-      .put("http://localhost:9000/user/" + props.user._id, newRecord)
-      .then(window.location.reload())
-      .catch((err) => console.log(err));
+    props.updateData(props.user._id, newRecord);
+
+    //   axios
+    //     .put("http://localhost:9000/user/" + props.user._id, newRecord)
+    //     .then(window.location.reload())
+    //     .catch((err) => console.log(err));
   }
 
   function delete_user() {
-    axios
-      .delete("http://localhost:9000/user/" + props.user._id)
-      .then(window.location.reload())
-      .catch((err) => console.log(err));
+    props.deleteData(props.user._id);
+    // axios
+    //   .delete("http://localhost:9000/user/" + props.user._id)
+    //   .then(window.location.reload())
+    //   .catch((err) => console.log(err));
   }
 
   return (
@@ -114,3 +117,14 @@ export default function Incomerows(props) {
     </tr>
   );
 }
+
+const mapStateToProps = (state) => ({
+  userList: state.postData.data,
+});
+
+const mapActionToProps = {
+  updateData: actions.update,
+  deleteData: actions.Delete,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(UserRows);

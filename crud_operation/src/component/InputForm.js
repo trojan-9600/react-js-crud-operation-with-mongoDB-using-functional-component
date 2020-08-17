@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useFormik } from "formik";
-import axios from "axios";
+
+import { connect } from "react-redux";
+import * as actions from "../actions/postData";
 import "./Inputform.css";
 import { Form } from "react-bootstrap";
-export default function InputForm() {
+export function InputForm(props) {
   const formik = useFormik({
     initialValues: {
       FirstName: "",
@@ -15,9 +17,7 @@ export default function InputForm() {
       Bio: "",
     },
     onSubmit: (values) => {
-      axios
-        .post("http://localhost:9000/user", values)
-        .then((res) => console.log(res.data));
+      props.insertData(values);
     },
     validate: (values) => {
       let errors = {};
@@ -48,28 +48,6 @@ export default function InputForm() {
     },
   });
   console.log(formik.errors);
-
-  // function OnSubmit(e) {
-  //   e.preventDefault();
-  //   const data = {
-  //     FirstName: fname,
-  //     MiddleName: mname,
-  //     LastName: lname,
-  //     Email: email,
-  //     date: date,
-  //     bio: bio,
-  //   };
-  //   console.log(data);
-  //   axios
-  //     .post("http://localhost:9000/user", data)
-  //     .then((res) => console.log(res.data));
-  //   setFname("");
-  //   setMname("");
-  //   setLname("");
-  //   setEmail("");
-  //   setDate("");
-  //   setBio("");
-  // }
 
   return (
     <form className="inputform" onSubmit={formik.handleSubmit}>
@@ -163,3 +141,12 @@ export default function InputForm() {
     </form>
   );
 }
+const mapStateToProps = (state) => ({
+  userList: state.postData.data,
+});
+
+const mapActionToProps = {
+  insertData: actions.create,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(InputForm);
